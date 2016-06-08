@@ -13,24 +13,24 @@ var app = angular.module('flapperNews',[]);
 	 $scope.list = postFactory.list;
 	 
 	 
-	 //Function to retrieve posts.
+	 //Function to retrieve data for every month.
 	 var flag = false;
 	 $scope.$watch('date',function(){
 		 
 		 angular.forEach($scope.list,function(value,index){
 			  
-				console.log('$scope.date:'+$filter('date')($scope.date, 'MMM-yyyy'));
+				
                 if(value.date == $filter('date')($scope.date, 'MMM-yyyy'))
 				{
 					flag = true;
-					console.log('inisde if condition of loop');
+					
 					$scope.posts = value.posts;
 					$scope.images = value.images;
 					$scope.events = value.events;
                 }
 			}); 
 			
-		 console.log('flag value:'+flag);	
+		 	
 	     if(flag == false)
 		 {
 			 $scope.posts = [];
@@ -44,58 +44,29 @@ var app = angular.module('flapperNews',[]);
 		 
 	 },true);
 	 
-	 /*
-	 $scope.findPost = function(searchDate){
-		 
-		angular.forEach($scope.list,function(value,index){
-			  
-				
-                if(value.date == searchDate)
-				{
-					flag = true;
-					console.log('inisde if condition of loop');
-					$scope.posts = value.posts;
-					$scope.images = value.images;
-					$scope.events = value.events;
-                }
-			}); 
-			
-		 console.log('flag value:'+flag);	
-	     if(flag == false)
-		 {
-			 $scope.posts = [];
-			 $scope.events = [];
-			 $scope.images = [];
-		 }
-		 else{
-			 flag = false;
-			 
-		 }
-        
-	 };
-	 */
-	 //Setting posts for current month.
 	 
-	 //$scope.findPost($filter('date')($scope.date, 'MMM-yyyy'));
 	 
-	 //Adding new post.
+	 //Function for adding new task.
 	 
 	 $scope.addTask = function(){
-		 if(!$scope.title || $scope.title === '') { return; }
+		 if(!$scope.title) { return; }
 	     $scope.posts.push( {title:$scope.title,upvotes:0} );
 		 $scope.title = '';
 	 };
 	 
+	 //Function for adding new event.
+	 
 	 $scope.addEvent = function(){
-		 if(!$scope.eventTitle || $scope.eventTitle === '') { return; }
+		 if(!$scope.eventTitle ) { return; }
 	     $scope.events.push( $scope.eventTitle );
 		 $scope.eventTitle = '';
 	 };
 	 
 	 //Upvoting function.
-	 $scope.incrementUpvotes = function(post){
+
+	 $scope.incrementUpvotes = function(task){
 		 
-		 post.upvotes += 1;
+		 task.upvotes += 1;
 	 };
 	 
 	 //Getting Previous Month.
@@ -111,11 +82,10 @@ var app = angular.module('flapperNews',[]);
      }
 	 
 	 
-	 //Controlling Functions Left Right Arrow.
+	 //Controlling Functions for  Left and Right Chevron.
 	 $scope.btnPrev = function(){
 		
         $scope.date = $scope.preMonth($scope.date);
-		//$scope.findPost($filter('date')($scope.date, 'MMM-yyyy'));
 		
 				 
 	 };
@@ -124,9 +94,7 @@ var app = angular.module('flapperNews',[]);
 		
         		
 	    $scope.date = $scope.nextMonth($scope.date);
-	    //$scope.findPost($filter('date')($scope.date, 'MMM-yyyy'));
-		
-			
+	    
 	 };
 	 
   
@@ -138,6 +106,29 @@ var app = angular.module('flapperNews',[]);
 	 var o ={};
 	  
 	 o.list=[
+	              { date:'Jun-2016',
+	                posts:[
+	                       {title: 'June Singapore Visa', upvotes: 1},
+                           {title: 'June Deposit Money', upvotes: 2},
+                           {title: 'June Pay Phone Bill', upvotes: 3}
+		                   ],
+				     events:[
+					        'June Singapore Trip with College Friends.',
+					        'June Team Outing at Bangalore Breworks',
+							'June Sketched my favorite scientist :-*',
+							'June Made new friends at work and I seem to enjoy my work ;)',
+							'June Massive tooth ache :( Have to undergo Surgery.',
+							'June Missing my best friends bday, wish she was here'
+					
+					       ],
+				    images:['one.jpg',
+					        'two.jpeg',
+							'three.jpg',
+							'four.jpeg',
+							'five.jpg',
+							'six.jpeg'
+					       ]
+	             },
 	              { date:'May-2016',
 	                posts:[
 	                       {title: 'May Singapore Visa', upvotes: 1},
@@ -210,7 +201,7 @@ var app = angular.module('flapperNews',[]);
 	             }
 	 ]; 
 	  
-	  console.log('inside factory:'+o.list);
+	  
 	  return o;
 	  
   });
